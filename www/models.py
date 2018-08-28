@@ -13,4 +13,14 @@ class Samples(Base):
     humidity=Column('humidity', Integer)
     pressure=Column('pressure', Integer)
     windspeed=Column('windspeed', Integer)
+    
+    def serialize(self):
+    		return {
+    				'id' : self.id,
+    				'temperature' : self.temperature,
+    				'humidity' : self.humidity,
+    				'pressure' : self.pressure,
+    				'windspeed' : self.windspeed,
 
+    		}
+ 
