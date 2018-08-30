@@ -28,7 +28,7 @@ def main(session):
     killer = GracefulKiller()
     while(True):
         t,h,p,w = getrand()
-        sample = Samples(temperature = t, humidity = h, pressure = p, windspeed = w )
+        sample = Samples(temperature= round(t ,2), humidity = round(h,2), pressure = round(p,2), windspeed = round(w,2) )
         session.add(sample)
         session.commit()
         print("Muestra guardada ")

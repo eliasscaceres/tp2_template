@@ -32,10 +32,10 @@ USE `tp2`;
 
 CREATE TABLE `samples` (
   `id` int(11) NOT NULL,
-  `temperature` int(11) NOT NULL,
-  `humidity` int(11) NOT NULL,
-  `pressure` int(11) NOT NULL,
-  `windspeed` int(11) NOT NULL
+  `temperature` float(11,2) NOT NULL,
+  `humidity` float(11,2) NOT NULL,
+  `pressure` float(11,2) NOT NULL,
+  `windspeed` float(11,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

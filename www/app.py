@@ -4,7 +4,11 @@ from flask import render_template
 from aux_pro import Process
 from database import Database
 from flask import redirect
-
+from flask import jsonify
+from flask import request
+import datetime
+import os
+  
 app = Flask(__name__)
 
 db = Database()
@@ -43,11 +47,14 @@ def average():
 			windavg += i['windspeed']
 			humavg += i['humidity']
 			pressavg += i['pressure']
-	tempavg=round(tempavg/cant,2)
-	windavg=round(windavg/cant,2)
-	humavg=round(humavg/cant,2)
-	pressavg=round(pressavg/cant,2)
-	return render_template('promedios.html',tempavg=tempavg ,humavg=humavg,windavg=windavg,pressavg=pressavg)
+	if cant == 10:
+		tempavg=round(tempavg/cant,2)
+		windavg=round(windavg/cant,2)
+		humavg=round(humavg/cant,2)
+		pressavg=round(pressavg/cant,2)
+		return render_template('promedios.html',tempavg=tempavg ,humavg=humavg,windavg=windavg,pressavg=pressavg)
+	else: 
+		return render_template('promedios.html',tempavg="NaN" ,humavg="NaN",windavg="NaN",pressavg="NaN")
 
 @app.route('/envivo')
 def vivo():
@@ -61,8 +68,17 @@ def vivo():
 @app.route('/ultimo')
 def ultimo():
 	sample = db.get_sample()
-	lasttemp = round(sample['temperature'],2)
-	lastwind = round(sample['windspeed'],2)
-	lasthum = round(sample['humidity'],2)
-	lastpress = round(sample['pressure'],2)
-	return render_template('ultimo.html',temp=lasttemp , hum=lasthum, wind=lastwind, press=lastpress)	
+	if len(sample):
+
+		lasttemp = sample['temperature']
+		lastwind = sample['windspeed']
+		lasthum = sample['humidity']
+		lastpress = sample['pressure']
+		return render_template('ultimo.html',temp=lasttemp , hum=lasthum, wind=lastwind, press=lastpress)	
+	else :
+		return render_template('ultimo.html',temp=9999 , hum=9999, wind=9999, press=9999)
+
+@app.route('/lastjson/', methods = ['GET'])
+def lastjson():
+	sample = db.get_sample()
+	return jsonify(sample)
