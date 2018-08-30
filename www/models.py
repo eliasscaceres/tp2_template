@@ -6,7 +6,7 @@ from sqlalchemy.types import Float
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-
+# Clase correspondienta a una muestra, que tiene como atributos las distintas variables climaticas
 class Samples(Base):
     __tablename__ = 'samples'
     id=Column(Integer, primary_key=True)

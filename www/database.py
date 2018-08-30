@@ -40,15 +40,23 @@ class Database(object):
         sample_id = int(sample.id)
         session.close()     
         return sample_id
-
+        # Si hay muestras en la base de datos, retorna la ultima, es decir la mas actual
     def get_sample(self):
         session = self.get_session()
         sample = session.query(Samples).order_by(Samples.id.desc()).first()
         session.close()
-        return sample.serialize()
+        if(sample is not None):        
+            return sample.serialize()
+        else:
+            return []
 
+        # Si hay 10 muestras o más, devuelve las ultimas 10, es decir las 10 mas recientes 
     def get_10_last_samples(self):
+        samples=0
         session = self.get_session()
         samples = session.query(Samples).order_by(Samples.id.desc()).limit(10).all()
-        session.close()        
-        return [s.serialize() for s in samples]
+        session.close()
+        if(samples!=0):        
+            return [s.serialize() for s in samples]
+        else:
+            return [] 

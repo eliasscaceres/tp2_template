@@ -6,7 +6,7 @@ import random
 import signal
 from database import Database
 import time 
-
+# Metodo que genera los valores para las muestras
 def getrand():
 	temp= random.randrange(-5,40,1) + random.random()
 	hum= random.randrange(40,100,1) + random.random()
@@ -41,25 +41,7 @@ def main(session):
 
 
 if __name__ == '__main__':
-    # if (len(sys.argv) != 4) or (sys.argv[1] == sys.argv[2]):
-    #     sys.exit("Usage: python process.py id_team_1 id_team_2 id_match")
-    # int_id_t1 = int(sys.argv[1])
-    # int_id_t2 = int(sys.argv[2])
-      # id_sample = 0    
+   
     db = Database()
     session = db.get_session()
-    # results = [ session.query(Sample).filter_by(id_sample=id_sample).first(), 
-    #             session.query(Sample).filter_by(id_sample=id_sample).first()]
     main(session)
-    
-
-#app = Flask(__name__)
-#@app.route('/')
-#def index():
-# return render_template('form.html')
-#@app.route('/form')
-#def action_form(nom=None):
-# nom = request.args["nombre"]
-# return render_template('response.html', name=nom)
-#if __name__ == "__main__":
-#  app.run(host='localhost', port=80)

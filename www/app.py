@@ -1,4 +1,4 @@
-# Imports
+# Import de librerias
 from flask import Flask
 from flask import render_template
 from aux_pro import Process
@@ -14,7 +14,10 @@ app = Flask(__name__)
 db = Database()
 pro = Process()
 
+# Ruta inicial
 @app.route('/')
+
+# Metodo inicial
 def index():
 	# pro.start_process()
 	return render_template('index.html',is_running=pro.is_running())
@@ -23,6 +26,7 @@ def index():
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8888)
 
+# Metodo para iniciar o detener el muestreo de las variables
 @app.route('/start', methods = ["POST"])
 def start():
     
@@ -32,7 +36,7 @@ def start():
     else:
     	pro.start_process()
     return redirect("/")
-
+# Metodo que toma las ultimas 10 muestras de la base de datos, calcula el promedio y lo retorna
 @app.route('/promedios')
 def average():
 	tempavg = 0
@@ -56,15 +60,20 @@ def average():
 	else: 
 		return render_template('promedios.html',tempavg="NaN" ,humavg="NaN",windavg="NaN",pressavg="NaN")
 
+# Metodo que toma la ultima muestra de la base de datos y la devuelve
 @app.route('/envivo')
 def vivo():
 	sample = db.get_sample()
-	lasttemp = sample['temperature']
-	lastwind = sample['windspeed']
-	lasthum = sample['humidity']
-	lastpress = sample['pressure']
-	return render_template('envivo.html',temp=lasttemp , hum=lasthum, wind=lastwind, press=lastpress)
+	if len(sample):
+		lasttemp = sample['temperature']
+		lastwind = sample['windspeed']
+		lasthum = sample['humidity']
+		lastpress = sample['pressure']
+		return render_template('envivo.html',temp=lasttemp , hum=lasthum, wind=lastwind, press=lastpress)	
+	else:
+		return render_template('envivo.html',temp="NaN" , hum="NaN", wind="NaN", press="NaN")
 
+# Metodo que retorna la ultima muestra para la ruta /ultimo
 @app.route('/ultimo')
 def ultimo():
 	sample = db.get_sample()
@@ -75,8 +84,8 @@ def ultimo():
 		lasthum = sample['humidity']
 		lastpress = sample['pressure']
 		return render_template('ultimo.html',temp=lasttemp , hum=lasthum, wind=lastwind, press=lastpress)	
-	else :
-		return render_template('ultimo.html',temp=9999 , hum=9999, wind=9999, press=9999)
+	else:
+		return render_template('ultimo.html',temp="NaN" , hum="NaN", wind="NaN", press="NaN")
 
 @app.route('/lastjson/', methods = ['GET'])
 def lastjson():
