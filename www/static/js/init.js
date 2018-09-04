@@ -9,7 +9,7 @@
                 var strUser = x.options[x.selectedIndex].value;
                 var interval = (Number(strUser)*1000);
                 console.log(idInter);
-                
+                $("#cartel").text("Actualizando cada "+ strUser + " segundos")  
                 if (idInter != -1){ 
                     window.clearInterval(idInter); 
                 }
@@ -20,15 +20,18 @@
             // Funcion para refrescar el Div
             function refreshDiv(){
                 counter = counter + 1;
-                $.get("/lastjson/", function(data) {
-        		// $("#id").text(data.id);
-        		$("#idtemp").text(data.temperature+" °C");
-                $("#idhum").text(data.humidity+" %");
-                $("#idwind").text(data.windspeed+" km/h");
-        		$("#idpress").text(data.pressure+" hPa");
-        	
-        		
-        		});
+                console.log(counter);
+                 $.get("/avgjson", function(data) {
+                // $("#id").text(data.id);
+                $("#tempavg").text(data.temperature+" °C");
+                $("#humavg").text(data.humidity+" %");
+                $("#windavg").text(data.windspeed+" km/h");
+                $("#pressavg").text(data.pressure+" hPa");
+                $("#idtemp").text(data.lasttemp+" °C");
+                $("#idhum").text(data.lasthum+" %");
+                $("#idwind").text(data.lastwind+" km/h");
+                $("#idpress").text(data.lastpress+" hPa");            
+                });
 
                 
             }

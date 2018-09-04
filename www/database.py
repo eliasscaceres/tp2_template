@@ -15,7 +15,6 @@ class Database(object):
     
     def get_session(self):
         """Singleton of db connection
-
         Returns:
             [db connection] -- [Singleton of db connection]
         """
@@ -27,19 +26,20 @@ class Database(object):
             self.session = Session()
             self.Base.metadata.create_all(engine)
         return self.session
-    def init_samples(self, dict_match):
-        """Generate the samples in the database
+
+    # def init_samples(self):
+    #     """Generate the samples in the database
     
-        Returns:
-            [id of samples] --
-        """
-        session = self.get_session()
-        sample = Samples()
-        session.add(sample)
-        session.commit()
-        sample_id = int(sample.id)
-        session.close()     
-        return sample_id
+    #     Returns:
+    #         [id of samples] --
+    #     """
+    #     session = self.get_session()
+    #     sample = Samples()
+    #     session.add(sample)
+    #     session.commit()
+    #     sample_id = int(sample.id)
+    #     session.close()     
+    #     return sample_id
         # Si hay muestras en la base de datos, retorna la ultima, es decir la mas actual
     def get_sample(self):
         session = self.get_session()

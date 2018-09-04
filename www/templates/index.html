@@ -8,20 +8,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/">
+
+
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="/static/js/init.js"></script>
+
     <title>Clima</title>
 </head>
-
-
-<body>
-    {% if is_running %}
-        <div style="text-align: center" class="alert alert-success" role="alert">
-            Muestreando datos
-        </div>
-        {% else%}
-        <div style="text-align: center" class="alert alert-warning" role="alert">
-            Muestreo detenido
-        </div>
-        {% endif %}
+<body onload="selectfrequency();">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/">Sensores</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,40 +26,93 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/promedios">Promedios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/envivo">En vivo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/ultimo">Ultimo</a>
-          </li>
         </ul>
       </div>
     </nav>
     <h1 class="display-4" style= "text-align: center">App de simulación de variables climáticas</h1>
+<div class="mx-auto"  >
 
         
-    <form action="/start" method="post">
-    <div style= "text-align: center" class = "div-container">
-        {% if is_running %}
-
-         <button type="submit" class="btn btn-danger">Detener Muestreo</button>
-        {% else%}
-          <button type="submit" class="btn btn-dark">Comenzar Muestreo</button>  
     
-        {% endif %}
+    
+  </div>
+    <!-- Promedios -->
+    <p style= "text-align: center" class="h3" >Promedios de las ultimas 10 variables</p>
+    
+    <table class="table table-hover">
+            <thead>
+            <td>
+                <th> Temperatura</th>
+                <th> Humedad </th>
+                <th> Viento </th>
+                <th> Presion </th>
+            </td>    
+            </thead>
+            <tbody>
+                <td>
+                    <th id ="tempavg"> {{tempavg}} °C</th>
+                    <th id ="humavg"> {{humavg}} % </th>
+                    <th id ="windavg"> {{windavg}} km/h </th>
+                    <th id ="pressavg"> {{pressavg}} hPa</th>
+                </td>
+            </tbody>
 
-    </div>
-    </form> 
+            </table>
+<!-- Ultima -->
+<table class="table table-hover">
+            <p style= "text-align: center"  class="h3" >Ultima muestra</p>
+        <thead>
+        <td>
+            <th> Temperatura</th>
+            <th> Humedad </th>
+            <th> Viento </th>
+            <th> Presion </th>
+        </td>    
+        </thead>
+        <tbody>
+            <td id ="id">
+                <th id="idtemp"> {{lasttemp}}  °C</th>
+                <th id="idhum">{{lasthum}}  % </th>
+                <th id="idwind"> {{lastwind}} km/h </th>
+                <th id="idpress"> {{lastpress}} hPa </th>
+            </td>
+        </tbody>
+        </table>
+<p  id="cartel" style= "text-align: center"  class="h3" >Actualizando cada 3 segundos </p>
+  <div style="text-align:center" >
+  <form class="form-inline">
+    <label class="my-1 mr-2" for="inlineFormCustomSelectPref"></label>
+    <select id="frec" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+     <option selected value="3">Frecuencia de actualización(3seg)...</option>
+     <option value="1">1seg</option>
+     <option value="2">2seg</option>
+     <option value="5">5seg</option>
+     <option value="15">15seg</option>
+     <option value="30">30seg</option>
+     <option value="45">45seg</option>
+     <option value="60">60seg</option>
+    </select>
+   <button  type="button" onclick="selectfrequency()" class="btn btn-dark my-1">Seleccionar</button>
+  </form>
+
+
+</div>
+
+
+
+
+
+
+
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </body>
 
 </html>
